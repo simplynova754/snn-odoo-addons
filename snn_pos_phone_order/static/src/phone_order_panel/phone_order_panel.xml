@@ -18,7 +18,25 @@
             </div>
             <div class="d-flex align-items-end gap-1">
                 <div class="snn-field">
-                    <span>Pickup</span>
+                    <span>Day</span>
+                    <div class="d-flex gap-1">
+                        <button type="button" class="btn snn-chip"
+                                t-att-class="{ 'snn-chip-on': order.snn_pickup_date === todayIso }"
+                                t-on-click="() => this.setDate(todayIso)">Today</button>
+                        <button type="button" class="btn snn-chip"
+                                t-att-class="{ 'snn-chip-on': order.snn_pickup_date === tomorrowIso }"
+                                t-on-click="() => this.setDate(tomorrowIso)">Tomorrow</button>
+                    </div>
+                </div>
+                <label class="snn-field flex-grow-1">
+                    <span>Other date</span>
+                    <input type="date" class="form-control snn-mono" t-att-min="todayIso"
+                           t-att-value="order.snn_pickup_date or ''" t-on-change="onCustomDate"/>
+                </label>
+            </div>
+            <div class="d-flex align-items-end gap-1">
+                <div class="snn-field">
+                    <span>Time</span>
                     <div class="d-flex gap-1">
                         <button t-foreach="quickTimes" t-as="slot" t-key="slot.label" type="button"
                                 class="btn snn-chip" t-on-click="() => this.onQuickTime(slot.minutes)">
@@ -32,7 +50,7 @@
                 </label>
             </div>
             <div class="snn-pickup" t-att-class="{ 'snn-pickup-empty': !order.snn_pickup_time }">
-                <t t-if="order.snn_pickup_time">Pickup <strong class="snn-mono" t-esc="order.snn_pickup_time"/></t>
+                <t t-if="order.snn_pickup_time or order.snn_pickup_date">Pickup <strong class="snn-mono" t-esc="pickupLabel"/></t>
                 <t t-else="">No pickup time yet</t>
             </div>
             <div class="snn-toggle d-grid">

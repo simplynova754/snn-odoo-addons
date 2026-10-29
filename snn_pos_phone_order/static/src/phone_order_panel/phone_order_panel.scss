@@ -44,6 +44,12 @@ $snn-teal: #046049;
         color: $snn-espresso;
     }
 
+    .snn-chip.snn-chip-on {
+        background: $snn-espresso;
+        border-color: $snn-espresso;
+        color: $snn-cream;
+    }
+
     .snn-pickup {
         font-size: 1rem;
         color: $snn-teal;

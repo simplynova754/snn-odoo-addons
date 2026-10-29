@@ -8,6 +8,7 @@
             <xpath expr="//field[@name='partner_id'][1]" position="after">
                 <field name="snn_pickup_name" invisible="not snn_pickup_name"/>
                 <field name="snn_pickup_phone" invisible="not snn_pickup_phone"/>
+                <field name="snn_pickup_date" invisible="not snn_pickup_date"/>
                 <field name="snn_pickup_time" invisible="not snn_pickup_time"/>
                 <field name="snn_payment_mode" invisible="not snn_payment_mode"/>
             </xpath>
@@ -21,6 +22,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="snn_pickup_name" optional="show"/>
+                <field name="snn_pickup_date" optional="show"/>
                 <field name="snn_pickup_time" optional="show"/>
                 <field name="snn_payment_mode" optional="show"/>
             </xpath>
