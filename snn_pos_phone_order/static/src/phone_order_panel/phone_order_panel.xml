@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="snn_pos_phone_order.PhoneOrderPanel">
+        <section t-if="order" class="snn-phone-panel d-flex flex-column gap-2 p-2 mb-2">
+            <div class="d-flex gap-2">
+                <label class="snn-field flex-grow-1">
+                    <span>Name</span>
+                    <input type="text" class="form-control" placeholder="Customer name"
+                           t-att-value="order.snn_pickup_name or ''"
+                           t-on-change="(ev) => this.setField('snn_pickup_name', ev.target.value.trim())"/>
+                </label>
+                <label class="snn-field flex-grow-1">
+                    <span>Phone</span>
+                    <input type="tel" class="form-control snn-mono" placeholder="(718) 555-0100"
+                           t-att-value="order.snn_pickup_phone or ''"
+                           t-on-change="(ev) => this.setField('snn_pickup_phone', ev.target.value.trim())"/>
+                </label>
+            </div>
+            <div class="d-flex align-items-end gap-1">
+                <div class="snn-field">
+                    <span>Pickup</span>
+                    <div class="d-flex gap-1">
+                        <button t-foreach="quickTimes" t-as="slot" t-key="slot.label" type="button"
+                                class="btn snn-chip" t-on-click="() => this.onQuickTime(slot.minutes)">
+                            <t t-esc="slot.label"/>
+                        </button>
+                    </div>
+                </div>
+                <label class="snn-field flex-grow-1">
+                    <span>Set time</span>
+                    <input type="time" class="form-control snn-mono" step="300" t-on-change="onCustomTime"/>
+                </label>
+            </div>
+            <div class="snn-pickup" t-att-class="{ 'snn-pickup-empty': !order.snn_pickup_time }">
+                <t t-if="order.snn_pickup_time">Pickup <strong class="snn-mono" t-esc="order.snn_pickup_time"/></t>
+                <t t-else="">No pickup time yet</t>
+            </div>
+            <div class="snn-toggle d-grid">
+                <button type="button" class="btn"
+                        t-att-class="order.snn_payment_mode === 'pickup' ? 'snn-on' : 'snn-off'"
+                        t-att-aria-pressed="order.snn_payment_mode === 'pickup' ? 'true' : 'false'"
+                        t-on-click="() => this.setField('snn_payment_mode', 'pickup')">Pay at pickup</button>
+                <button type="button" class="btn"
+                        t-att-class="order.snn_payment_mode === 'phone' ? 'snn-on' : 'snn-off'"
+                        t-att-aria-pressed="order.snn_payment_mode === 'phone' ? 'true' : 'false'"
+                        t-on-click="() => this.setField('snn_payment_mode', 'phone')">Card over phone</button>
+            </div>
+        </section>
+    </t>
+</templates>

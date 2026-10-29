@@ -1,0 +1,84 @@
+// Simply Nova palette: cream ground, espresso ink, teal for actions.
+$snn-cream: #F5F0E8;
+$snn-espresso: #2C2418;
+$snn-muted: #5E554A;
+$snn-border: #CFC5B6;
+$snn-teal: #046049;
+
+.snn-phone-panel {
+    background: $snn-cream;
+    border: 1px solid #D9D1C4;
+    border-radius: 12px;
+    color: $snn-espresso;
+
+    .snn-field {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin: 0;
+        min-width: 0;
+
+        > span {
+            font-size: 0.8rem;
+            color: $snn-muted;
+        }
+
+        .form-control {
+            min-height: 44px;
+            border-color: $snn-border;
+            border-radius: 10px;
+            color: $snn-espresso;
+        }
+    }
+
+    .snn-mono {
+        font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .snn-chip {
+        min-height: 44px;
+        min-width: 52px;
+        border: 1px solid $snn-border;
+        border-radius: 8px;
+        background: #fff;
+        color: $snn-espresso;
+    }
+
+    .snn-pickup {
+        font-size: 1rem;
+        color: $snn-teal;
+
+        &.snn-pickup-empty {
+            color: $snn-muted;
+        }
+    }
+
+    .snn-toggle {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        border: 1px solid $snn-espresso;
+        border-radius: 8px;
+        overflow: hidden;
+
+        .btn {
+            min-height: 44px;
+            border: 0;
+            border-radius: 0;
+            font-weight: 600;
+        }
+
+        .snn-on {
+            background: $snn-espresso;
+            color: $snn-cream;
+        }
+
+        .snn-off {
+            background: #fff;
+            color: $snn-espresso;
+        }
+    }
+
+    .snn-chip:hover,
+    .snn-toggle .btn:hover {
+        border-color: #A8442A;
+    }
+}

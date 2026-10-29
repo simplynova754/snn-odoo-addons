@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_pos_form_snn_phone" model="ir.ui.view">
+        <field name="name">pos.order.form.snn.phone</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id'][1]" position="after">
+                <field name="snn_pickup_name" invisible="not snn_pickup_name"/>
+                <field name="snn_pickup_phone" invisible="not snn_pickup_phone"/>
+                <field name="snn_pickup_time" invisible="not snn_pickup_time"/>
+                <field name="snn_payment_mode" invisible="not snn_payment_mode"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pos_order_tree_snn_phone" model="ir.ui.view">
+        <field name="name">pos.order.list.snn.phone</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="snn_pickup_name" optional="show"/>
+                <field name="snn_pickup_time" optional="show"/>
+                <field name="snn_payment_mode" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
