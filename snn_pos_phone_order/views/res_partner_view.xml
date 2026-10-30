@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Show Payment Terms near the top of the customer form (also used by the register). -->
+    <record id="view_partner_form_snn_payment_terms" model="ir.ui.view">
+        <field name="name">res.partner.form.snn.payment.terms</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <xpath expr="//field[@name='property_payment_term_id']" position="move"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

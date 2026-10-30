@@ -1,15 +1,16 @@
 {
     "name": "Simply Nova - Phone Orders",
-    "version": "18.0.1.7.0",
+    "version": "18.0.1.8.0",
     "summary": "Phone order panel for the POS: customer name, phone, pickup time and payment mode",
     "author": "Simply Nova LLC",
     "category": "Sales/Point of Sale",
     "license": "LGPL-3",
-    "depends": ["point_of_sale"],
+    "depends": ["point_of_sale", "account"],
     "data": [
         "views/pos_config_view.xml",
         "views/pos_order_view.xml",
         "views/product_view.xml",
+        "views/res_partner_view.xml",
     ],
     "assets": {
         "point_of_sale._assets_pos": [

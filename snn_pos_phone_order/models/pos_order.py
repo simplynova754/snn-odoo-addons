@@ -31,3 +31,11 @@ class PosOrder(models.Model):
         self.write({"snn_pickup_status": status})
         return True
 
+    def _prepare_invoice_vals(self):
+        """Orders charged to a customer account use the customer's payment terms
+        (e.g. 30 days). Orders paid on the spot stay due immediately."""
+        vals = super()._prepare_invoice_vals()
+        term = self.partner_id.commercial_partner_id.property_payment_term_id
+        if term and any(p.payment_method_id.type == "pay_later" for p in self.payment_ids):
+            vals["invoice_payment_term_id"] = term.id
+        return vals
