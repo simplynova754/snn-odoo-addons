@@ -21,7 +21,7 @@
                 </div>
 
                 <section class="snn-clock-people">
-                    <span class="snn-clock-eyebrow">Tap your name</span>
+                    <span class="snn-clock-eyebrow">Just type your PIN · or tap your name</span>
                     <div class="snn-clock-tiles">
                         <button t-foreach="employees" t-as="employee" t-key="employee.id" type="button"
                                 class="snn-clock-tile" t-att-aria-pressed="state.selectedId === employee.id ? 'true' : 'false'"
@@ -39,7 +39,7 @@
 
             <aside class="snn-clock-side">
                 <div class="snn-clock-who">
-                    <h2 t-esc="selected ? selected.name : 'Sign in'"/>
+                    <h2 t-esc="selected ? selected.name : (state.armed ? 'Time clock' : 'Type your PIN')"/>
                     <span class="snn-mono" t-esc="detailLine"/>
                 </div>
 
@@ -58,13 +58,13 @@
                 <div t-if="state.error" class="snn-clock-error" role="alert" t-esc="state.error"/>
                 <div t-elif="state.message" class="snn-clock-ok" role="status" t-esc="state.message"/>
 
-                <button type="button" class="snn-clock-open" t-att-disabled="!selected" t-on-click="() => this.openRegister()">Open register</button>
+                <button type="button" class="snn-clock-open" t-on-click="() => this.openRegister()">Open register</button>
 
                 <div t-if="pos.config.snn_time_clock" class="snn-clock-actions">
-                    <button type="button" t-att-disabled="!can('in')" t-on-click="() => this.clock('in')">Clock in</button>
-                    <button type="button" t-att-disabled="!can('out')" t-on-click="() => this.clock('out')">Clock out</button>
-                    <button type="button" t-att-disabled="!can('break_start')" t-on-click="() => this.clock('break_start')">Start break</button>
-                    <button type="button" t-att-disabled="!can('break_end')" t-on-click="() => this.clock('break_end')">End break</button>
+                    <button type="button" t-att-disabled="!can('in')" t-att-aria-pressed="state.armed === 'in' ? 'true' : 'false'" t-on-click="() => this.onClockButton('in')">Clock in</button>
+                    <button type="button" t-att-disabled="!can('out')" t-att-aria-pressed="state.armed === 'out' ? 'true' : 'false'" t-on-click="() => this.onClockButton('out')">Clock out</button>
+                    <button type="button" t-att-disabled="!can('break_start')" t-att-aria-pressed="state.armed === 'break_start' ? 'true' : 'false'" t-on-click="() => this.onClockButton('break_start')">Start break</button>
+                    <button type="button" t-att-disabled="!can('break_end')" t-att-aria-pressed="state.armed === 'break_end' ? 'true' : 'false'" t-on-click="() => this.onClockButton('break_end')">End break</button>
                 </div>
             </aside>
         </div>

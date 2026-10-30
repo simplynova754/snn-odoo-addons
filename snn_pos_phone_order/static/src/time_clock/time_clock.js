@@ -4,6 +4,15 @@ import { Component, onMounted, onWillUnmount, useExternalListener, useState } fr
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { _t } from "@web/core/l10n/translation";
 
+const PIN_LENGTH = 4;
+
+const ARMED_LABELS = {
+    in: _t("clock in"),
+    out: _t("clock out"),
+    break_start: _t("start a break"),
+    break_end: _t("end the break"),
+};
+
 const ACTION_LABELS = {
     in: _t("clocked in"),
     out: _t("clocked out"),
@@ -42,6 +51,7 @@ export class SnnTimeClock extends Component {
             busy: false,
             message: "",
             error: "",
+            armed: null,
             now: new Date(),
         });
         useExternalListener(window, "keydown", (ev) => this.onKeydown(ev));
@@ -121,9 +131,12 @@ export class SnnTimeClock extends Component {
     }
 
     get detailLine() {
+        if (this.state.armed) {
+            return _t("Enter your PIN to %s", ARMED_LABELS[this.state.armed]);
+        }
         const s = this.selectedStatus;
         if (!s) {
-            return _t("Enter your PIN");
+            return _t("Enter your PIN to open the register");
         }
         if (s.state === "off") {
             return s.minutes_today
@@ -135,9 +148,13 @@ export class SnnTimeClock extends Component {
     }
 
     can(action) {
-        const s = this.selectedStatus;
-        if (!s || this.state.busy) {
+        if (this.state.busy) {
             return false;
+        }
+        const s = this.selectedStatus;
+        if (!this.selected || !s) {
+            // No name tapped: any action can be armed, then the PIN says who it is.
+            return true;
         }
         return {
             in: s.state === "off",
@@ -169,7 +186,8 @@ export class SnnTimeClock extends Component {
     }
 
     select(employee) {
-        this.state.selectedId = employee.id;
+        this.state.selectedId = this.state.selectedId === employee.id ? null : employee.id;
+        this.state.armed = null;
         this.state.pin = "";
         this.state.error = "";
         this.state.message = "";
@@ -181,8 +199,37 @@ export class SnnTimeClock extends Component {
             this.state.pin = "";
         } else if (key === "back") {
             this.state.pin = this.state.pin.slice(0, -1);
-        } else if (this.state.pin.length < 8) {
+        } else if (this.state.pin.length < PIN_LENGTH) {
             this.state.pin += key;
+            if (this.state.pin.length === PIN_LENGTH) {
+                this.complete();
+            }
+        }
+    }
+
+    // The employee whose PIN was typed (limited to the tapped name, if any).
+    employeeForPin() {
+        if (!this.state.pin) {
+            return null;
+        }
+        const hash = Sha1.hash(this.state.pin);
+        const pool = this.selected ? [this.selected] : this.employees;
+        const matches = pool.filter((e) => e._pin === hash);
+        return matches.length === 1 ? matches[0] : null;
+    }
+
+    // Full PIN typed: open the register, or do the clock action that was tapped first.
+    complete() {
+        const employee = this.employeeForPin();
+        if (!employee) {
+            this.state.pin = "";
+            this.state.error = _t("Wrong PIN. Try again.");
+            return;
+        }
+        if (this.state.armed) {
+            this.clock(this.state.armed, employee);
+        } else {
+            this.login(employee);
         }
     }
 
@@ -196,45 +243,54 @@ export class SnnTimeClock extends Component {
             this.press("back");
         } else if (ev.key === "Enter") {
             this.openRegister();
+        } else if (ev.key === "Escape") {
+            this.state.armed = null;
+            this.state.pin = "";
         }
-    }
-
-    pinMatches(employee) {
-        if (!employee._pin) {
-            return true;
-        }
-        return Boolean(this.state.pin) && Sha1.hash(this.state.pin) === employee._pin;
     }
 
     openRegister() {
-        const employee = this.selected;
+        this.state.armed = null;
+        const selected = this.selected;
+        if (selected && !selected._pin) {
+            this.login(selected);
+            return;
+        }
+        const employee = this.employeeForPin();
         if (!employee) {
-            this.state.error = _t("Tap your name first.");
-            return;
-        }
-        if (!this.pinMatches(employee)) {
             this.state.pin = "";
-            this.state.error = _t("Wrong PIN. Try again.");
+            this.state.error = selected || this.state.pin ? _t("Wrong PIN. Try again.") : _t("Enter your PIN.");
             return;
         }
+        this.login(employee);
+    }
+
+    login(employee) {
         this.state.pin = "";
+        this.state.armed = null;
         this.props.onLogin(employee);
     }
 
-    async clock(action) {
-        const employee = this.selected;
-        if (!employee || !this.can(action)) {
+    // Tapping a clock button: do it now if we know who (name + PIN typed),
+    // otherwise remember it and do it when the PIN is entered.
+    onClockButton(action) {
+        if (!this.can(action)) {
             return;
         }
-        if (employee._pin && !this.state.pin) {
-            this.state.error = _t("Enter your PIN first.");
-            return;
-        }
-        if (!this.pinMatches(employee)) {
+        this.state.error = "";
+        this.state.message = "";
+        const selected = this.selected;
+        const employee = selected && !selected._pin ? selected : this.employeeForPin();
+        if (employee) {
+            this.clock(action, employee);
+        } else {
             this.state.pin = "";
-            this.state.error = _t("Wrong PIN. Try again.");
-            return;
+            this.state.armed = this.state.armed === action ? null : action;
         }
+    }
+
+    async clock(action, employee) {
+        this.state.armed = null;
         this.state.busy = true;
         this.state.error = "";
         try {
@@ -248,6 +304,7 @@ export class SnnTimeClock extends Component {
             this.state.pin = "";
             this.state.selectedId = null;
         } catch (e) {
+            this.state.pin = "";
             this.state.error =
                 e?.data?.message || e?.message || _t("Could not reach Odoo. Check the internet and try again.");
         } finally {

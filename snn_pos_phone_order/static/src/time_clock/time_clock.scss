@@ -272,3 +272,9 @@ $c-mono: "DM Mono", ui-monospace, monospace;
         .snn-clock-title h1 { font-size: 40px; }
     }
 }
+
+.snn-clock .snn-clock-actions button[aria-pressed="true"] {
+    background: $c-espresso;
+    border-color: $c-espresso;
+    color: $c-cream;
+}
