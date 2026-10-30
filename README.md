@@ -8,10 +8,18 @@ Custom Odoo 18 Community modules for Simply Nova NYC.
 
 ## Install on the server
 
+First time only:
+
 ```
-cd /tmp && rm -rf snn && git clone https://github.com/simplynova754/snn-odoo-addons.git snn
-cp -r snn/snn_pos_phone_order /var/lib/docker/volumes/*odoo-extra-addons/_data/
-docker restart <odoo container>
+cd /tmp && git clone https://github.com/simplynova754/snn-odoo-addons.git snn
+```
+
+Every update:
+
+```
+cd /tmp/snn
+git pull
+sh deploy.sh
 ```
 
 Then in Odoo: Apps → Update Apps List → install (first time) or Upgrade (after changes).
