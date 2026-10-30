@@ -1,9 +1,8 @@
 /** @odoo-module */
 import { Component } from "@odoo/owl";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
+import { syncPhoneOrderNote } from "./phone_order_note";
 
-// First line of the order's general note. It prints on the receipt and the kitchen ticket.
-const NOTE_PREFIX = "PHONE ORDER";
 
 export class PhoneOrderPanel extends Component {
     static template = "snn_pos_phone_order.PhoneOrderPanel";
@@ -49,13 +48,6 @@ export class PhoneOrderPanel extends Component {
             month: "short",
             day: "numeric",
         });
-    }
-
-    // For the printed note: always a real date, e.g. "Fri 10/30"
-    formatDateShort(iso) {
-        const [y, m, d] = iso.split("-").map(Number);
-        const date = new Date(y, m - 1, d);
-        return `${date.toLocaleDateString("en-US", { weekday: "short" })} ${m}/${d}`;
     }
 
     get pickupLabel() {
@@ -116,29 +108,6 @@ export class PhoneOrderPanel extends Component {
     }
 
     syncNote() {
-        const order = this.order;
-        const payment = {
-            pickup: "Pay at pickup",
-            phone: "Paid by card over phone",
-        }[order.snn_payment_mode];
-        const parts = [
-            order.snn_pickup_name,
-            order.snn_pickup_phone,
-            (order.snn_pickup_time || order.snn_pickup_date) &&
-                `Pickup ${[
-                    order.snn_pickup_date && this.formatDateShort(order.snn_pickup_date),
-                    order.snn_pickup_time,
-                ]
-                    .filter(Boolean)
-                    .join(" ")}`,
-            payment,
-        ].filter(Boolean);
-        const otherLines = (order.general_note || "")
-            .split("\n")
-            .filter((line) => line && !line.startsWith(NOTE_PREFIX));
-        if (parts.length) {
-            otherLines.unshift(`${NOTE_PREFIX} · ${parts.join(" · ")}`);
-        }
-        order.general_note = otherLines.join("\n");
+        syncPhoneOrderNote(this.order);
     }
 }
