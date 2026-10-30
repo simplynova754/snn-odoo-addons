@@ -1,0 +1,30 @@
+// Add-on breakdown under each sandwich on the ticket and receipt.
+.orderline .snn-options {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 2px 0 4px;
+    padding-left: 0.75rem;
+    border-left: 2px solid #D9D1C4;
+    font-size: 0.9rem;
+
+    .snn-option {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .snn-option-base {
+        color: #5E554A;
+    }
+
+    .snn-option-price {
+        font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        white-space: nowrap;
+    }
+
+    .snn-option-missing {
+        color: #A8442A;
+        font-weight: 600;
+    }
+}
