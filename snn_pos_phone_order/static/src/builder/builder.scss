@@ -1,0 +1,190 @@
+// Brand look for Odoo's sandwich options window ("Attribute selection"),
+// matching the approved phone order mockup.
+
+@font-face {
+    font-family: "SNN Display";
+    src: url("/snn_pos_phone_order/static/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+}
+@font-face {
+    font-family: "DM Mono";
+    src: url("/snn_pos_phone_order/static/fonts/dm-mono-latin-400-normal.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "DM Mono";
+    src: url("/snn_pos_phone_order/static/fonts/dm-mono-latin-500-normal.woff2") format("woff2");
+    font-weight: 500;
+    font-display: swap;
+}
+
+$snn-cream: #F5F0E8;
+$snn-espresso: #2C2418;
+$snn-muted: #5E554A;
+$snn-rule: #D9D1C4;
+$snn-border: #CFC5B6;
+$snn-teal: #046049;
+$snn-teal-deep: #04503F;
+$snn-clay: #A8442A;
+$snn-display: "SNN Display", "Barlow Condensed", "Arial Narrow", sans-serif;
+$snn-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+// Only the options window: it is the one dialog with .attribute_name rows.
+.modal-content:has(.attribute_name) {
+    background: $snn-cream;
+    color: $snn-espresso;
+    border: 1px solid $snn-rule;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .modal-header {
+        background: $snn-cream;
+        border-bottom: 1px solid $snn-rule;
+
+        .modal-title {
+            font-family: $snn-mono;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: $snn-muted;
+        }
+    }
+
+    .modal-body {
+        background: $snn-cream;
+    }
+
+    // Product name and price
+    .section-product-info-title {
+        background: #fff !important;
+        color: $snn-espresso !important;
+        border-bottom: 1px solid $snn-rule;
+
+        .h4 {
+            margin: 0;
+            color: $snn-espresso;
+        }
+
+        > div > div:first-child .h4:first-child {
+            font-family: $snn-display;
+            font-weight: 700;
+            font-size: 1.9rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            color: $snn-teal-deep;
+        }
+
+        .text-end .h4,
+        > div > div:last-child .h4 {
+            font-family: $snn-mono;
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+    }
+
+    // Numbered steps: "1 · Bagel", "2 · Cream Cheese", "3 · Extras"
+    [t-ref="input-area"],
+    .modal-body {
+        counter-reset: snn-step;
+    }
+
+    .attribute {
+        counter-increment: snn-step;
+        margin-bottom: 1.25rem !important;
+    }
+
+    .attribute_name {
+        font-family: "DM Sans", system-ui, sans-serif;
+        font-size: 1rem;
+        font-weight: 600 !important;
+        color: $snn-espresso;
+
+        &::before {
+            content: counter(snn-step) " · ";
+        }
+    }
+
+    // Choice chips
+    .attribute .btn.btn-secondary {
+        min-height: 48px;
+        padding: 0.5rem 1rem;
+        border: 1px solid $snn-border;
+        border-radius: 8px;
+        background: #fff;
+        color: $snn-espresso;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.2;
+        align-items: center;
+        box-shadow: none;
+
+        &:hover {
+            border-color: $snn-clay;
+            color: $snn-clay;
+        }
+
+        &.active {
+            border: 2px solid $snn-espresso;
+            background: $snn-espresso;
+            color: $snn-cream;
+            font-weight: 600;
+
+            .price_extra {
+                color: $snn-cream;
+            }
+        }
+    }
+
+    // "+ $0.50": plain mono text instead of a teal bubble
+    .price_extra {
+        background: transparent !important;
+        color: $snn-muted !important;
+        font-family: $snn-mono;
+        font-size: 0.85rem;
+        padding: 0 !important;
+    }
+
+    .attribute .btn.active .price_extra {
+        color: $snn-cream !important;
+    }
+
+    // Footer buttons
+    .modal-footer {
+        background: $snn-cream;
+        border-top: 1px solid $snn-rule;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+
+        .btn-primary {
+            min-height: 48px;
+            padding: 0 1.75rem;
+            border: 0;
+            border-radius: 8px;
+            background: $snn-teal;
+            color: #fff;
+            font-weight: 700;
+
+            &:hover {
+                background: $snn-clay;
+            }
+        }
+
+        .btn-secondary {
+            min-height: 48px;
+            padding: 0 1.25rem;
+            border: 1px solid $snn-espresso;
+            border-radius: 8px;
+            background: transparent;
+            color: $snn-espresso;
+            font-weight: 600;
+
+            &:hover {
+                border-color: $snn-clay;
+                color: $snn-clay;
+            }
+        }
+    }
+}

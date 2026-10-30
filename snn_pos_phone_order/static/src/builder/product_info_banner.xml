@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Show the menu price (before tax) to match the ticket line, and drop the "VAT" line. -->
+    <t t-inherit="point_of_sale.ProductInfoBanner" t-inherit-mode="extension">
+        <xpath expr="//t[@t-esc='this.env.utils.formatCurrency(state.price_with_tax)']" position="attributes">
+            <attribute name="t-esc">this.env.utils.formatCurrency(state.price_without_tax)</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('h4')][contains(., 'VAT')]" position="replace"/>
+    </t>
+</templates>
