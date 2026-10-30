@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+        <xpath expr="//CashierName" position="before">
+            <button t-if="pos.config.snn_phone_order_mode" type="button" class="btn btn-lg snn-pickups-nav"
+                    t-on-click="() => this.pos.showScreen('PickupsScreen')">
+                Pickups<span class="snn-pickups-count" t-esc="pos.snnOpenPickupsToday()"/>
+            </button>
+        </xpath>
+    </t>
+</templates>

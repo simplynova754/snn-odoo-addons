@@ -11,6 +11,7 @@
                 <field name="snn_pickup_date" invisible="not snn_pickup_date"/>
                 <field name="snn_pickup_time" invisible="not snn_pickup_time"/>
                 <field name="snn_payment_mode" invisible="not snn_payment_mode"/>
+                <field name="snn_pickup_status" invisible="not snn_pickup_status"/>
             </xpath>
         </field>
     </record>
@@ -25,6 +26,7 @@
                 <field name="snn_pickup_date" optional="show"/>
                 <field name="snn_pickup_time" optional="show"/>
                 <field name="snn_payment_mode" optional="show"/>
+                <field name="snn_pickup_status" optional="show"/>
             </xpath>
         </field>
     </record>

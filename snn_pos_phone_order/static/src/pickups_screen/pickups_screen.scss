@@ -1,0 +1,290 @@
+// Pickups page, matching the approved mockup.
+$snn-cream: #F5F0E8;
+$snn-espresso: #2C2418;
+$snn-muted: #5E554A;
+$snn-rule: #D9D1C4;
+$snn-border: #CFC5B6;
+$snn-teal: #046049;
+$snn-teal-deep: #04503F;
+$snn-clay: #A8442A;
+$snn-display: "SNN Display", "Barlow Condensed", "Arial Narrow", sans-serif;
+$snn-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+$snn-cols: 96px minmax(0, 1.3fr) minmax(0, 2fr) 96px 170px 130px;
+
+.snn-pickups {
+    background: $snn-cream;
+    color: $snn-espresso;
+
+    .snn-mono { font-family: $snn-mono; }
+    .snn-muted { color: $snn-muted; }
+
+    .snn-pickups-header,
+    .snn-pickups-bar {
+        padding: 10px 20px;
+        border-bottom: 1px solid $snn-rule;
+    }
+
+    .snn-pickups-title {
+        font-family: $snn-display;
+        font-weight: 700;
+        font-size: 2rem;
+        text-transform: uppercase;
+        color: $snn-teal-deep;
+    }
+
+    .snn-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 360px;
+        height: 44px;
+        margin: 0;
+        padding: 0 14px;
+        background: #fff;
+        border: 1px solid $snn-border;
+        border-radius: 10px;
+        color: $snn-muted;
+
+        input {
+            flex-grow: 1;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: $snn-espresso;
+            font-size: 1rem;
+        }
+    }
+
+    .snn-btn-outline {
+        min-height: 44px;
+        border: 1px solid $snn-espresso;
+        border-radius: 8px;
+        background: transparent;
+        color: $snn-espresso;
+        font-weight: 600;
+
+        &:hover { border-color: $snn-clay; color: $snn-clay; }
+    }
+
+    .snn-btn-primary {
+        min-height: 52px;
+        border: 0;
+        border-radius: 8px;
+        background: $snn-teal;
+        color: #fff;
+        font-size: 1.05rem;
+        font-weight: 700;
+
+        &:hover { background: $snn-clay; color: #fff; }
+    }
+
+    .snn-tab {
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid $snn-border;
+        border-radius: 8px;
+        background: #fff;
+        color: $snn-espresso;
+
+        &.snn-tab-on {
+            border-color: $snn-espresso;
+            background: $snn-espresso;
+            color: $snn-cream;
+            font-weight: 600;
+        }
+    }
+
+    .snn-stats {
+        dt {
+            font-family: $snn-mono;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: $snn-muted;
+        }
+
+        dd {
+            margin: 0;
+            font-family: $snn-mono;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+    }
+
+    .snn-pickups-list {
+        padding: 14px 20px;
+    }
+
+    .snn-row {
+        display: grid;
+        grid-template-columns: $snn-cols;
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+        padding: 12px 14px;
+    }
+
+    .snn-row-head {
+        padding-top: 0;
+        padding-bottom: 6px;
+        font-family: $snn-mono;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: $snn-muted;
+    }
+
+    .snn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+
+        h2 {
+            margin: 0;
+            font-family: $snn-display;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            color: $snn-teal-deep;
+        }
+    }
+
+    .snn-row-order {
+        border: 1px solid $snn-rule;
+        border-radius: 10px;
+        background: #fff;
+        color: $snn-espresso;
+        text-align: left;
+
+        &:hover { border-color: $snn-clay; }
+        &.snn-row-late { border: 2px solid $snn-espresso; }
+        &.snn-row-selected { box-shadow: inset 4px 0 0 $snn-teal; }
+    }
+
+    .snn-time { font-size: 1rem; font-weight: 500; }
+    .snn-items { font-size: 0.9rem; }
+
+    .snn-tag {
+        display: inline-block;
+        margin-left: 4px;
+        padding: 0 5px;
+        border: 1px solid $snn-border;
+        border-radius: 4px;
+        font-family: $snn-mono;
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: #4A443C;
+        vertical-align: 2px;
+    }
+
+    .snn-status {
+        justify-self: start;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: $snn-mono;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        background: #E9E3D8;
+        color: #4A443C;
+    }
+
+    .snn-status-ready { background: transparent; border: 1px solid $snn-teal; color: $snn-teal; }
+    .snn-status-late { background: $snn-espresso; color: $snn-cream; }
+    .snn-status-picked_up { background: transparent; color: $snn-muted; }
+
+    .snn-empty {
+        padding: 40px 0;
+        text-align: center;
+        color: $snn-muted;
+    }
+
+    .snn-pickups-detail {
+        width: 420px;
+        flex-shrink: 0;
+        border-left: 1px solid $snn-rule;
+        background: #fff;
+    }
+
+    .snn-detail-head {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 18px 20px;
+        border-bottom: 1px solid $snn-rule;
+
+        h2 {
+            margin: 0;
+            font-family: $snn-display;
+            font-weight: 700;
+            font-size: 1.75rem;
+            text-transform: uppercase;
+            color: $snn-teal-deep;
+        }
+    }
+
+    .snn-eyebrow {
+        font-family: $snn-mono;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: $snn-muted;
+    }
+
+    .snn-detail-lines { padding: 6px 20px; }
+
+    .snn-detail-line {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 10px 0;
+        border-bottom: 1px solid #ECE6DC;
+        font-size: 0.95rem;
+    }
+
+    .snn-detail-foot {
+        padding: 16px 20px;
+        border-top: 1px solid $snn-rule;
+    }
+
+    .snn-total-label {
+        font-family: $snn-display;
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+    }
+
+    .snn-total { font-size: 1.5rem; font-weight: 500; }
+
+    .snn-detail-empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+}
+
+// Pickups button in the top bar
+.snn-pickups-nav {
+    min-height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: #046049;
+    color: #fff;
+    font-weight: 700;
+
+    &:hover { background: #A8442A; color: #fff; }
+
+    .snn-pickups-count {
+        margin-left: 6px;
+        padding: 1px 7px;
+        border-radius: 4px;
+        background: #fff;
+        color: #046049;
+        font-family: "DM Mono", ui-monospace, monospace;
+    }
+}

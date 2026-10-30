@@ -1,6 +1,6 @@
 {
     "name": "Simply Nova - Phone Orders",
-    "version": "18.0.1.5.0",
+    "version": "18.0.1.6.0",
     "summary": "Phone order panel for the POS: customer name, phone, pickup time and payment mode",
     "author": "Simply Nova LLC",
     "category": "Sales/Point of Sale",

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="snn_pos_phone_order.PickupsScreen">
+        <div class="snn-pickups h-100 d-flex flex-column">
+            <header class="snn-pickups-header d-flex align-items-center gap-3">
+                <button type="button" class="btn snn-btn-outline" t-on-click="back">
+                    <i class="fa fa-chevron-left me-2" aria-hidden="true"/>Register
+                </button>
+                <h1 class="snn-pickups-title m-0">Pickups</h1>
+                <label class="snn-search ms-auto">
+                    <i class="fa fa-search" aria-hidden="true"/>
+                    <span class="visually-hidden">Search pickups</span>
+                    <input type="text" placeholder="Search name or phone" t-model="state.search"/>
+                </label>
+                <button type="button" class="btn snn-btn-outline" t-on-click="refresh" t-att-disabled="state.loading">
+                    <i class="fa fa-refresh" t-att-class="{ 'fa-spin': state.loading }" aria-hidden="true"/>
+                    <span class="ms-2">Refresh</span>
+                </button>
+            </header>
+
+            <div class="snn-pickups-bar d-flex align-items-center flex-wrap gap-3">
+                <div class="d-flex gap-2" role="group" aria-label="Pickup day">
+                    <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'today' }" t-on-click="() => this.setTab('today')">Today · <t t-esc="count('today')"/></button>
+                    <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'tomorrow' }" t-on-click="() => this.setTab('tomorrow')">Tomorrow · <t t-esc="count('tomorrow')"/></button>
+                    <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'week' }" t-on-click="() => this.setTab('week')">Next 7 days · <t t-esc="count('week')"/></button>
+                    <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'picked' }" t-on-click="() => this.setTab('picked')">Picked up</button>
+                </div>
+                <t t-set="sum" t-value="summary"/>
+                <dl class="snn-stats d-flex gap-4 m-0 ms-auto">
+                    <div><dt>Late</dt><dd t-esc="sum.late"/></div>
+                    <div><dt>Ready</dt><dd t-esc="sum.ready"/></div>
+                    <div><dt>To make</dt><dd t-esc="sum.toMake"/></div>
+                    <div><dt>Due at pickup</dt><dd t-esc="sum.due"/></div>
+                </dl>
+            </div>
+
+            <div class="snn-pickups-body d-flex flex-grow-1 overflow-hidden">
+                <main class="snn-pickups-list flex-grow-1 overflow-auto">
+                    <div class="snn-row snn-row-head" aria-hidden="true">
+                        <span>Pickup</span><span>Customer</span><span>Items</span><span>Total</span><span>Payment</span><span>Status</span>
+                    </div>
+                    <t t-set="groupList" t-value="groups"/>
+                    <p t-if="!groupList.length" class="snn-empty">No pickups here.</p>
+                    <section t-foreach="groupList" t-as="group" t-key="group.label" class="snn-group">
+                        <h2 t-esc="group.label"/>
+                        <t t-foreach="group.orders" t-as="order" t-key="order.uuid">
+                            <t t-set="r" t-value="row(order)"/>
+                            <button type="button" class="snn-row snn-row-order"
+                                    t-att-class="{ 'snn-row-late': r.late, 'snn-row-selected': r.selected }"
+                                    t-on-click="() => this.select(r.uuid)">
+                                <span class="snn-mono snn-time" t-esc="r.time"/>
+                                <span class="d-flex flex-column text-start">
+                                    <span class="fw-semibold"><t t-esc="r.name"/> <span class="snn-tag">Phone</span></span>
+                                    <span class="snn-mono snn-muted" t-esc="r.phone"/>
+                                </span>
+                                <span class="snn-muted text-start snn-items" t-esc="r.items"/>
+                                <span class="snn-mono" t-esc="r.total"/>
+                                <span t-att-class="{ 'fw-semibold': r.unpaid }" t-esc="r.payment"/>
+                                <span class="snn-status" t-att-class="'snn-status-' + (r.late ? 'late' : r.status)" t-esc="r.statusLabel"/>
+                            </button>
+                        </t>
+                    </section>
+                </main>
+
+                <aside class="snn-pickups-detail d-flex flex-column">
+                    <t t-if="selected">
+                        <t t-set="d" t-value="detail(selected)"/>
+                        <div class="snn-detail-head">
+                            <span class="snn-eyebrow">Pickup <t t-esc="d.day"/> · <t t-esc="d.time"/> · Ticket <t t-esc="d.ticket"/></span>
+                            <h2 t-esc="d.name"/>
+                            <span class="snn-mono" t-esc="d.phone"/>
+                            <span t-if="d.note" class="snn-muted">Note: <t t-esc="d.note"/></span>
+                        </div>
+                        <div class="snn-detail-lines flex-grow-1 overflow-auto">
+                            <div t-foreach="d.lines" t-as="line" t-key="line.key" class="snn-detail-line">
+                                <div class="d-flex justify-content-between gap-3">
+                                    <span class="fw-semibold"><t t-esc="line.name"/> <span class="snn-muted fw-normal">×<t t-esc="line.qty"/><t t-if="line.unit and line.unit !== 'Units'"> <t t-esc="line.unit"/></t></span></span>
+                                    <span class="snn-mono" t-esc="line.price"/>
+                                </div>
+                                <span t-if="line.options" class="snn-muted" t-esc="line.options"/>
+                            </div>
+                        </div>
+                        <div class="snn-detail-foot d-flex flex-column gap-2">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <span class="snn-total-label">Total</span>
+                                <span class="snn-mono snn-total" t-esc="d.total"/>
+                            </div>
+                            <span class="snn-muted" t-esc="d.payment"/>
+                            <button t-if="d.nextAction" type="button" class="btn snn-btn-primary" t-on-click="() => this.runNext(selected)" t-esc="d.nextAction.label"/>
+                            <div class="d-grid gap-2" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+                                <button t-if="d.editable" type="button" class="btn snn-btn-outline" t-on-click="() => this.editOrder(selected)">Edit order</button>
+                                <button t-if="d.editable" type="button" class="btn snn-btn-outline" t-on-click="() => this.takePayment(selected)">Take payment</button>
+                                <button t-if="d.status !== 'queued' and d.status !== 'picked_up'" type="button" class="btn snn-btn-outline" t-on-click="() => this.setStatus(selected, 'queued')">Back to queued</button>
+                                <button t-if="!d.editable and d.status !== 'picked_up'" type="button" class="btn snn-btn-outline" t-on-click="() => this.setStatus(selected, 'picked_up')">Picked up</button>
+                            </div>
+                        </div>
+                    </t>
+                    <div t-else="" class="snn-detail-empty">
+                        <p class="snn-muted">Tap an order to see its items and move it along.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </t>
+</templates>
