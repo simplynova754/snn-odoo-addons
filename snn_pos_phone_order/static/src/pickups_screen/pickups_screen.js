@@ -5,10 +5,10 @@ import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { formatCurrency } from "@point_of_sale/app/models/utils/currency";
 
 const STATUS_LABEL = {
-    queued: "Queued",
-    making: "Making",
+    queued: "Scheduled",
+    making: "Active",
     ready: "Ready",
-    picked_up: "Picked up",
+    picked_up: "Completed",
 };
 
 // Local date as "YYYY-MM-DD", offset by whole days.
@@ -269,16 +269,16 @@ export class PickupsScreen extends Component {
     nextAction(order) {
         const status = this.statusOf(order);
         if (status === "queued") {
-            return { label: "Start making", status: "making" };
+            return { label: "Fire now", status: "making" };
         }
         if (status === "making") {
-            return { label: "Mark ready", status: "ready" };
+            return { label: "Order ready", status: "ready" };
         }
         if (status === "ready" && !this.isPaid(order)) {
             return { label: "Take payment", pay: true };
         }
         if (status === "ready") {
-            return { label: "Picked up", status: "picked_up" };
+            return { label: "Complete", status: "picked_up" };
         }
         return null;
     }

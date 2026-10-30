@@ -23,13 +23,13 @@
                     <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'today' }" t-on-click="() => this.setTab('today')">Today · <t t-esc="count('today')"/></button>
                     <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'tomorrow' }" t-on-click="() => this.setTab('tomorrow')">Tomorrow · <t t-esc="count('tomorrow')"/></button>
                     <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'week' }" t-on-click="() => this.setTab('week')">Next 7 days · <t t-esc="count('week')"/></button>
-                    <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'picked' }" t-on-click="() => this.setTab('picked')">Picked up</button>
+                    <button type="button" class="btn snn-tab" t-att-class="{ 'snn-tab-on': state.tab === 'picked' }" t-on-click="() => this.setTab('picked')">Completed</button>
                 </div>
                 <t t-set="sum" t-value="summary"/>
                 <dl class="snn-stats d-flex gap-4 m-0 ms-auto">
                     <div><dt>Late</dt><dd t-esc="sum.late"/></div>
                     <div><dt>Ready</dt><dd t-esc="sum.ready"/></div>
-                    <div><dt>To make</dt><dd t-esc="sum.toMake"/></div>
+                    <div><dt>Scheduled · Active</dt><dd t-esc="sum.toMake"/></div>
                     <div><dt>Due at pickup</dt><dd t-esc="sum.due"/></div>
                 </dl>
             </div>
@@ -90,8 +90,8 @@
                             <div class="d-grid gap-2" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
                                 <button t-if="d.editable" type="button" class="btn snn-btn-outline" t-on-click="() => this.editOrder(selected)">Edit order</button>
                                 <button t-if="d.editable" type="button" class="btn snn-btn-outline" t-on-click="() => this.takePayment(selected)">Take payment</button>
-                                <button t-if="d.status !== 'queued' and d.status !== 'picked_up'" type="button" class="btn snn-btn-outline" t-on-click="() => this.setStatus(selected, 'queued')">Back to queued</button>
-                                <button t-if="!d.editable and d.status !== 'picked_up'" type="button" class="btn snn-btn-outline" t-on-click="() => this.setStatus(selected, 'picked_up')">Picked up</button>
+                                <button t-if="d.status !== 'queued' and d.status !== 'picked_up'" type="button" class="btn snn-btn-outline" t-on-click="() => this.setStatus(selected, 'queued')">Back to scheduled</button>
+                                <button t-if="!d.editable and d.status !== 'picked_up'" type="button" class="btn snn-btn-outline" t-on-click="() => this.setStatus(selected, 'picked_up')">Complete</button>
                             </div>
                         </div>
                     </t>

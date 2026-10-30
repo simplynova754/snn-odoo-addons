@@ -13,7 +13,7 @@ class PosOrder(models.Model):
         string="Phone payment",
     )
     snn_pickup_status = fields.Selection(
-        [("queued", "Queued"), ("making", "Making"), ("ready", "Ready"), ("picked_up", "Picked up")],
+        [("queued", "Scheduled"), ("making", "Active"), ("ready", "Ready"), ("picked_up", "Completed")],
         string="Pickup status",
     )
 
