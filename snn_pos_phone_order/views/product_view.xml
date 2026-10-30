@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='pos']/field[@name='to_weight']" position="before">
                 <field name="snn_pos_short_name" placeholder="e.g. Norwegian SW"/>
+                <field name="snn_pos_top_seller"/>
             </xpath>
         </field>
     </record>

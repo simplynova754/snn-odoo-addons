@@ -1,0 +1,174 @@
+// Simply Nova look for the whole register, matching the approved mockup:
+// cream ground, espresso ink and structure, teal for actions, clay on hover.
+$snn-cream: #F5F0E8;
+$snn-espresso: #2C2418;
+$snn-muted: #5E554A;
+$snn-rule: #D9D1C4;
+$snn-border: #CFC5B6;
+$snn-teal: #046049;
+$snn-teal-deep: #04503F;
+$snn-clay: #A8442A;
+$snn-display: "SNN Display", "Barlow Condensed", "Arial Narrow", sans-serif;
+$snn-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+.pos {
+    // Ground
+    .pos-content,
+    .product-screen,
+    .product-screen .rightpane,
+    .product-screen .leftpane {
+        background: $snn-cream;
+    }
+
+    // Top bar
+    .pos-topheader {
+        background: $snn-cream !important;
+        border-bottom: 1px solid $snn-rule !important;
+    }
+
+    // Category buttons: white at rest, espresso for the open path
+    .category-button {
+        border: 1px solid $snn-border !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        color: $snn-espresso !important;
+        font-family: $snn-display;
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        opacity: 1 !important;
+
+        &:not([class*="o_colorlist_item_color_transparent_"]) {
+            border-color: $snn-espresso !important;
+            background: $snn-espresso !important;
+            color: $snn-cream !important;
+        }
+
+        &:hover {
+            border-color: $snn-clay !important;
+        }
+    }
+
+    // Product buttons
+    .product-list .product {
+        border: 1px solid $snn-rule !important;
+        border-radius: 10px !important;
+        background: #fff !important;
+        color: $snn-espresso;
+        box-shadow: none !important;
+
+        &:hover {
+            border-color: $snn-clay !important;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: $snn-espresso;
+        }
+
+        .product-information-tag {
+            opacity: 0.6;
+        }
+    }
+
+    // Ticket
+    .order-container,
+    .order-summary,
+    .leftpane .order-container {
+        background: #fff;
+    }
+
+    .orderline {
+        color: $snn-espresso;
+
+        &.selected {
+            background: $snn-cream !important;
+            box-shadow: inset 4px 0 0 $snn-teal;
+        }
+
+        .product-price {
+            font-family: $snn-mono;
+            font-weight: 500;
+        }
+    }
+
+    // Numpad
+    .numpad button,
+    .numpad .btn {
+        border: 1px solid $snn-rule !important;
+        background: #fff !important;
+        color: $snn-espresso !important;
+
+        &.active,
+        &:active {
+            border-color: $snn-espresso !important;
+            background: $snn-espresso !important;
+            color: $snn-cream !important;
+        }
+    }
+
+    // Payment / primary actions
+    .pay-order-button,
+    .btn-primary.button,
+    .validation .btn-primary {
+        border: 0 !important;
+        border-radius: 8px !important;
+        background: $snn-teal !important;
+        color: #fff !important;
+        font-weight: 700;
+
+        &:hover {
+            background: $snn-clay !important;
+        }
+    }
+}
+
+// One-tap top sellers row
+.snn-top-sellers {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .snn-top-sellers-label {
+        font-family: $snn-mono;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: $snn-muted;
+    }
+
+    .snn-top-sellers-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .snn-top-seller {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 72px;
+        padding: 10px 12px;
+        border: 0;
+        border-radius: 10px;
+        background: $snn-teal;
+        color: #fff;
+        text-align: left;
+
+        &:hover {
+            background: $snn-clay;
+        }
+    }
+
+    .snn-top-seller-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+        line-height: 1.2;
+    }
+
+    .snn-top-seller-price {
+        font-family: $snn-mono;
+        font-size: 0.9rem;
+    }
+}

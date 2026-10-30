@@ -5,4 +5,19 @@
             <PhoneOrderPanel t-if="pos.config.snn_phone_order_mode"/>
         </xpath>
     </t>
+    <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+        <xpath expr="//CategorySelector" position="before">
+            <t t-set="topSellers" t-value="pos.config.snn_phone_order_mode and !ui.isSmall ? snnTopSellers : []"/>
+            <section t-if="topSellers.length" class="snn-top-sellers px-2 pt-2" aria-label="Top sellers">
+                <span class="snn-top-sellers-label">Top sellers · one tap</span>
+                <div class="snn-top-sellers-grid">
+                    <button t-foreach="topSellers" t-as="product" t-key="product.id" type="button"
+                            class="snn-top-seller" t-on-click="() => this.addProductToOrder(product)">
+                        <span class="snn-top-seller-name" t-esc="getProductName(product)"/>
+                        <span class="snn-top-seller-price" t-esc="getProductPrice(product)"/>
+                    </button>
+                </div>
+            </section>
+        </xpath>
+    </t>
 </templates>
