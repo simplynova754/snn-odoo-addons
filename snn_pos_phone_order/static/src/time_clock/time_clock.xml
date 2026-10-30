@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="snn_pos_phone_order.SnnTimeClock">
+        <div class="snn-clock fixed-top w-100 h-100">
+            <main class="snn-clock-main">
+                <div class="snn-clock-head">
+                    <div class="snn-clock-title">
+                        <span class="snn-clock-eyebrow" t-esc="registerLabel"/>
+                        <h1>Who's ringing?</h1>
+                    </div>
+                    <div class="snn-clock-time">
+                        <span class="snn-clock-hour" t-esc="clockText"/>
+                        <span class="snn-clock-date" t-esc="dateText"/>
+                    </div>
+                </div>
+
+                <div class="snn-clock-strip">
+                    <span t-if="lastSale">Last sale <span class="snn-mono">#<t t-esc="lastSale.name"/> · <t t-esc="lastSale.total"/></span><t t-if="lastSale.by"> by <t t-esc="lastSale.by"/></t> · <t t-esc="lastSale.at"/></span>
+                    <span t-else="">No sales yet on this register</span>
+                    <span t-if="pos.config.snn_lock_after_sale" class="snn-clock-eyebrow">Locked after every sale</span>
+                </div>
+
+                <section class="snn-clock-people">
+                    <span class="snn-clock-eyebrow">Tap your name</span>
+                    <div class="snn-clock-tiles">
+                        <button t-foreach="employees" t-as="employee" t-key="employee.id" type="button"
+                                class="snn-clock-tile" t-att-aria-pressed="state.selectedId === employee.id ? 'true' : 'false'"
+                                t-on-click="() => this.select(employee)">
+                            <span class="snn-clock-tile-name" t-esc="employee.name"/>
+                            <span class="snn-clock-tile-status" t-esc="statusLine(employee)"/>
+                        </button>
+                    </div>
+                </section>
+                <div class="snn-clock-foot">
+                    <p>Clock in, clock out and breaks are saved with the time in Odoo Attendances for payroll.</p>
+                    <button type="button" class="snn-clock-back" t-on-click="() => props.onBack()" t-esc="props.backLabel"/>
+                </div>
+            </main>
+
+            <aside class="snn-clock-side">
+                <div class="snn-clock-who">
+                    <h2 t-esc="selected ? selected.name : 'Sign in'"/>
+                    <span class="snn-mono" t-esc="detailLine"/>
+                </div>
+
+                <div class="snn-clock-dots" t-att-aria-label="'PIN, ' + state.pin.length + ' digits entered'">
+                    <span t-foreach="pinDots" t-as="dot" t-key="dot_index" t-att-class="{'filled': dot}"/>
+                </div>
+
+                <div class="snn-clock-pad">
+                    <button t-foreach="['1','2','3','4','5','6','7','8','9']" t-as="digit" t-key="digit" type="button"
+                            class="snn-clock-key snn-mono" t-on-click="() => this.press(digit)" t-esc="digit"/>
+                    <button type="button" class="snn-clock-key snn-clock-key-text" t-on-click="() => this.press('clear')">Clear</button>
+                    <button type="button" class="snn-clock-key snn-mono" t-on-click="() => this.press('0')">0</button>
+                    <button type="button" class="snn-clock-key" aria-label="Delete digit" t-on-click="() => this.press('back')">⌫</button>
+                </div>
+
+                <div t-if="state.error" class="snn-clock-error" role="alert" t-esc="state.error"/>
+                <div t-elif="state.message" class="snn-clock-ok" role="status" t-esc="state.message"/>
+
+                <button type="button" class="snn-clock-open" t-att-disabled="!selected" t-on-click="() => this.openRegister()">Open register</button>
+
+                <div t-if="pos.config.snn_time_clock" class="snn-clock-actions">
+                    <button type="button" t-att-disabled="!can('in')" t-on-click="() => this.clock('in')">Clock in</button>
+                    <button type="button" t-att-disabled="!can('out')" t-on-click="() => this.clock('out')">Clock out</button>
+                    <button type="button" t-att-disabled="!can('break_start')" t-on-click="() => this.clock('break_start')">Start break</button>
+                    <button type="button" t-att-disabled="!can('break_end')" t-on-click="() => this.clock('break_end')">End break</button>
+                </div>
+            </aside>
+        </div>
+    </t>
+
+    <t t-name="snn_pos_phone_order.LoginScreen" t-inherit="point_of_sale.LoginScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('login-overlay')]" position="attributes">
+            <attribute name="t-if">!snnUseClock</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('login-overlay')]" position="after">
+            <SnnTimeClock t-else="" onLogin.bind="snnLogin" onBack.bind="clickBack" backLabel="backBtnName"/>
+        </xpath>
+    </t>
+</templates>

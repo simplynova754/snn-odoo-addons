@@ -3,11 +3,17 @@
     <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
         <xpath expr="//OrderSummary" position="before">
             <PhoneOrderPanel t-if="pos.config.snn_phone_order_mode"/>
+            <div t-elif="pos.config.snn_counter_mode and currentOrder" class="snn-callout">
+                <label class="snn-callout-label" for="snn-callout-name">Name for call-out (optional)</label>
+                <input id="snn-callout-name" type="text" class="snn-callout-input" autocomplete="off"
+                       t-att-value="currentOrder.snn_pickup_name or ''"
+                       t-on-change="(ev) => currentOrder.update({ snn_pickup_name: ev.target.value.trim() })"/>
+            </div>
         </xpath>
     </t>
     <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
         <xpath expr="//CategorySelector" position="before">
-            <t t-set="topSellers" t-value="pos.config.snn_phone_order_mode and !ui.isSmall ? snnTopSellers : []"/>
+            <t t-set="topSellers" t-value="(pos.config.snn_phone_order_mode or pos.config.snn_counter_mode) and !ui.isSmall ? snnTopSellers : []"/>
             <section t-if="topSellers.length" class="snn-top-sellers px-2 pt-2" aria-label="Top sellers">
                 <span class="snn-top-sellers-label">Top sellers · one tap</span>
                 <div class="snn-top-sellers-grid">
@@ -18,6 +24,18 @@
                     </button>
                 </div>
             </section>
+        </xpath>
+    </t>
+    <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+        <xpath expr="//ActionpadWidget" position="before">
+            <div t-if="pos.config.snn_counter_mode and snnQuickPayMethods.length" class="snn-quick-pay">
+                <button t-foreach="snnQuickPayMethods" t-as="method" t-key="method.id" type="button"
+                        t-att-class="'snn-quick-pay-btn ' + (method.type === 'pay_later' ? 'snn-quick-pay-account' : '')"
+                        t-att-disabled="!currentOrder or currentOrder.is_empty()"
+                        t-on-click="() => this.snnQuickPay(method)">
+                    <t t-esc="method.type === 'pay_later' ? 'On account' : method.name.replace(' – ', ' · ')"/>
+                </button>
+            </div>
         </xpath>
     </t>
 </templates>

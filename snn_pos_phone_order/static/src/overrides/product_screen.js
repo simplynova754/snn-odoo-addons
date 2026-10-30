@@ -15,6 +15,32 @@ patch(ProductScreen.prototype, {
             .slice(0, 6);
     },
 
+    // Counter layout: one-tap payment buttons (Card · Square, Cash, then On account).
+    get snnQuickPayMethods() {
+        const rank = (m) => (m.type === "pay_later" ? 2 : m.is_cash_count ? 1 : 0);
+        return this.pos.config.payment_method_ids
+            .slice()
+            .sort((a, b) => rank(a) - rank(b) || a.sequence - b.sequence);
+    },
+
+    async snnQuickPay(method) {
+        const order = this.currentOrder;
+        if (!order || order.is_empty()) {
+            return;
+        }
+        await this.pos.pay();
+        if (this.pos.mainScreen.component?.name !== "PaymentScreen") {
+            return;
+        }
+        if (method.type === "pay_later" && !order.get_partner()) {
+            // On account needs a customer: the payment screen will ask for one.
+            return;
+        }
+        if (!order.payment_ids.length && order.get_due() > 0) {
+            order.add_paymentline(method);
+        }
+    },
+
     getProductName(product) {
         return product.snn_pos_short_name || super.getProductName(...arguments);
     },

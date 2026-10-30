@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_attendance_view_tree_snn" model="ir.ui.view">
+        <field name="name">hr.attendance.list.snn</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='check_out']" position="after">
+                <field name="snn_end_reason" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

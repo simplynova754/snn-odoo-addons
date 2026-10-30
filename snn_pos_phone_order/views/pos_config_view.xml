@@ -10,6 +10,18 @@
                          help="Show name, phone, pickup time and payment mode above the ticket">
                     <field name="snn_phone_order_mode"/>
                 </setting>
+                <setting id="snn_counter_mode" string="Counter layout"
+                         help="Call-out name, top sellers and one-tap Card / Cash / On account buttons">
+                    <field name="snn_counter_mode"/>
+                </setting>
+                <setting id="snn_lock_after_sale" string="Lock after every sale"
+                         help="Ask for the employee PIN again after each finished sale (needs employee login)">
+                    <field name="snn_lock_after_sale"/>
+                </setting>
+                <setting id="snn_time_clock" string="Time clock on login"
+                         help="Clock in, clock out and breaks on the login screen, saved to Attendances">
+                    <field name="snn_time_clock"/>
+                </setting>
             </xpath>
         </field>
     </record>

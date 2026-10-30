@@ -1,0 +1,274 @@
+// "Who's ringing?" login and time clock — Simply Nova brand.
+$c-cream: #F5F0E8;
+$c-espresso: #2C2418;
+$c-teal: #046049;
+$c-teal-deep: #04503F;
+$c-clay: #A8442A;
+$c-muted: #5E554A;
+$c-rule: #D9D1C4;
+$c-display: "SNN Display", "Barlow Condensed", "Arial Narrow", sans-serif;
+$c-mono: "DM Mono", ui-monospace, monospace;
+
+.snn-clock {
+    z-index: 1050;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 520px);
+    background: $c-cream;
+    color: $c-espresso;
+    font-family: "DM Sans", system-ui, sans-serif;
+    overflow: auto;
+
+    .snn-mono { font-family: $c-mono; }
+
+    .snn-clock-eyebrow {
+        font-family: $c-mono;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: $c-muted;
+    }
+
+    .snn-clock-main {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        padding: 48px 56px;
+        min-width: 0;
+    }
+
+    .snn-clock-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 16px;
+    }
+
+    .snn-clock-title {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        h1 {
+            margin: 0;
+            font-family: $c-display;
+            font-weight: 700;
+            font-size: 56px;
+            line-height: 1;
+            text-transform: uppercase;
+            color: $c-teal-deep;
+        }
+    }
+
+    .snn-clock-time {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-family: $c-mono;
+
+        .snn-clock-hour { font-size: 44px; font-weight: 500; line-height: 1.1; }
+        .snn-clock-date { font-size: 14px; color: $c-muted; }
+    }
+
+    .snn-clock-strip {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        background: #fff;
+        border: 1px solid $c-rule;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+
+    .snn-clock-people {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .snn-clock-tiles {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .snn-clock-tile {
+        height: 96px;
+        border-radius: 12px;
+        border: 1px solid $c-rule;
+        background: #fff;
+        color: $c-espresso;
+        text-align: left;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &:hover { border-color: $c-clay; }
+
+        &[aria-pressed="true"] {
+            border: 2px solid $c-espresso;
+            background: $c-espresso;
+            color: $c-cream;
+
+            .snn-clock-tile-status { color: $c-cream; }
+        }
+    }
+
+    .snn-clock-tile-name {
+        font-family: $c-display;
+        font-weight: 700;
+        font-size: 26px;
+        text-transform: uppercase;
+        line-height: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .snn-clock-tile-status {
+        font-family: $c-mono;
+        font-size: 13px;
+        color: $c-muted;
+    }
+
+    .snn-clock-foot {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+
+        p { margin: 0; font-size: 14px; color: $c-muted; }
+    }
+
+    .snn-clock-back {
+        border: 1px solid $c-rule;
+        background: transparent;
+        color: $c-muted;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+
+        &:hover { color: $c-clay; border-color: $c-clay; }
+    }
+
+    .snn-clock-side {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 48px 40px;
+        background: #fff;
+        border-left: 1px solid $c-rule;
+    }
+
+    .snn-clock-who {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        h2 {
+            margin: 0;
+            font-family: $c-display;
+            font-weight: 700;
+            font-size: 34px;
+            text-transform: uppercase;
+            color: $c-teal-deep;
+        }
+
+        span { font-size: 14px; color: $c-muted; }
+    }
+
+    .snn-clock-dots {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        min-height: 18px;
+
+        span {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid $c-rule;
+
+            &.filled { background: $c-espresso; border-color: $c-espresso; }
+        }
+    }
+
+    .snn-clock-pad {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .snn-clock-key {
+        height: 60px;
+        border-radius: 10px;
+        border: 1px solid $c-rule;
+        background: #fff;
+        color: $c-espresso;
+        font-size: 24px;
+
+        &:hover { border-color: $c-clay; }
+        &:active { background: $c-cream; }
+    }
+
+    .snn-clock-key-text { font-size: 16px; font-weight: 600; }
+
+    .snn-clock-error, .snn-clock-ok {
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .snn-clock-error { background: #F6E3DD; color: $c-clay; }
+    .snn-clock-ok { background: #E1EEE9; color: $c-teal-deep; }
+
+    .snn-clock-open {
+        height: 64px;
+        border: 0;
+        border-radius: 8px;
+        background: $c-teal;
+        color: #fff;
+        font-size: 19px;
+        font-weight: 700;
+
+        &:hover:not(:disabled) { background: $c-clay; }
+        &:disabled { opacity: .45; cursor: not-allowed; }
+    }
+
+    .snn-clock-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+
+        button {
+            height: 52px;
+            border-radius: 8px;
+            border: 1px solid $c-espresso;
+            background: transparent;
+            color: $c-espresso;
+            font-size: 16px;
+            font-weight: 600;
+
+            &:hover:not(:disabled) { border-color: $c-clay; color: $c-clay; }
+
+            &:disabled {
+                border-color: $c-rule;
+                opacity: .34;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+
+        .snn-clock-main, .snn-clock-side { padding: 24px 16px; }
+        .snn-clock-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .snn-clock-side { border-left: 0; border-top: 1px solid $c-rule; }
+        .snn-clock-title h1 { font-size: 40px; }
+    }
+}

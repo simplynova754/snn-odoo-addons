@@ -172,3 +172,65 @@ $snn-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
         font-size: 0.9rem;
     }
 }
+
+// Counter layout: call-out name and one-tap payment buttons.
+.pos .snn-callout {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 10px 10px;
+    margin-bottom: 6px;
+    background: #fff;
+    border: 1px solid $snn-rule;
+    border-radius: 10px;
+
+    .snn-callout-label {
+        font-family: $snn-mono;
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: $snn-muted;
+    }
+
+    .snn-callout-input {
+        height: 40px;
+        padding: 0 10px;
+        border: 1px solid $snn-border;
+        border-radius: 8px;
+        background: $snn-cream;
+        color: $snn-espresso;
+        font-size: 1rem;
+
+        &:focus { outline: 2px solid $snn-teal; border-color: $snn-teal; }
+    }
+}
+
+.pos .snn-quick-pay {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+
+    .snn-quick-pay-btn {
+        min-height: 64px;
+        border: 0;
+        border-radius: 8px;
+        background: $snn-teal;
+        color: #fff;
+        font-size: 1.15rem;
+        font-weight: 700;
+
+        &:hover:not(:disabled) { background: $snn-clay; }
+        &:disabled { opacity: 0.4; cursor: not-allowed; }
+    }
+
+    .snn-quick-pay-account {
+        grid-column: 1 / -1;
+        min-height: 48px;
+        background: transparent;
+        border: 1px solid $snn-espresso;
+        color: $snn-espresso;
+        font-size: 1rem;
+
+        &:hover:not(:disabled) { background: transparent; border-color: $snn-clay; color: $snn-clay; }
+    }
+}
