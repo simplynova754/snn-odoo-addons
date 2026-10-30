@@ -74,7 +74,7 @@
                         <div class="snn-detail-lines flex-grow-1 overflow-auto">
                             <div t-foreach="d.lines" t-as="line" t-key="line.key" class="snn-detail-line">
                                 <div class="d-flex justify-content-between gap-3">
-                                    <span class="fw-semibold"><t t-esc="line.name"/> <span class="snn-muted fw-normal">×<t t-esc="line.qty"/><t t-if="line.unit and line.unit !== 'Units'"> <t t-esc="line.unit"/></t></span></span>
+                                    <span class="fw-semibold"><t t-esc="line.name"/> <span t-if="line.qtyLabel" class="snn-muted fw-normal" t-esc="line.qtyLabel"/></span>
                                     <span class="snn-mono" t-esc="line.price"/>
                                 </div>
                                 <span t-if="line.options" class="snn-muted" t-esc="line.options"/>

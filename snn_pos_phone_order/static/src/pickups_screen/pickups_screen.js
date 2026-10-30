@@ -84,12 +84,8 @@ export class PickupsScreen extends Component {
             });
             const missing = ids.filter((id) => !this.pos.models["pos.order"].get(id));
             if (missing.length) {
-                const records = await this.pos.data.callRelated(
-                    "pos.order",
-                    "get_ticket_screen_order_data",
-                    [missing]
-                );
-                await this.pos.processProductAttributesByProducts(records["product.product"]);
+                // Loads the orders with their lines into the register's data.
+                await this.pos.data.read("pos.order", missing);
             }
         } catch (error) {
             console.warn("snn_pos_phone_order: could not refresh pickups", error);
@@ -255,11 +251,12 @@ export class PickupsScreen extends Component {
             note,
             lines: order.getSortedOrderlines().map((l) => {
                 const data = l.getDisplayData();
+                const qty = l.get_quantity();
+                const byWeight = data.unit && data.unit !== "Units";
                 return {
                     key: l.uuid,
                     name: data.productName,
-                    qty: data.qty,
-                    unit: data.unit,
+                    qtyLabel: byWeight ? `${data.qty} ${data.unit}` : qty === 1 ? "" : `×${qty}`,
                     price: data.price,
                     options: (data.snnOptions || []).map((o) => o.name).join(" · "),
                 };
