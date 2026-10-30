@@ -7,6 +7,8 @@ if [ -z "$DEST" ]; then
     echo "Could not find the Odoo extra-addons folder"; exit 1
 fi
 for module in /tmp/snn/snn_*; do
+    # Replace the whole folder so deleted files don't linger on the server.
+    rm -rf "$DEST/$(basename "$module")"
     cp -r "$module" "$DEST/"
     echo "Copied $(basename "$module") to $DEST"
 done
